@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -17,7 +18,13 @@ func main() {
 		fmt.Printf("can't get resp, %v\n", err)
 		return
 	}
-	defer resp.Body.Close()
+
+	defer func() {
+		if e := resp.Body.Close(); e != nil {
+			log.Fatalf("failed to close file %v, error: %q", resp, e)
+			return
+		}
+	}()
 
 	body, err := io.ReadAll(resp.Body)
 
