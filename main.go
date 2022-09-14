@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/aofei/mimesniffer"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func main() {
@@ -21,8 +21,11 @@ func main() {
 
 	body, err := io.ReadAll(resp.Body)
 
-	contentType := mimesniffer.Sniff(body)
+	contentType := Sniff(body)
 
-	fmt.Printf("Тип файла: %v\n", contentType)
-
+	if strings.Contains(contentType, "image") {
+		fmt.Printf("Это изображение")
+	} else {
+		fmt.Printf("Это НЕ изображение")
+	}
 }
