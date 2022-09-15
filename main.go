@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	url := "https://klike.net/uploads/posts/2019-05/1556708064_4.jpg"
+	url := "https://static.eldorado.ru/photos/mv/Big/30058843bb1.jpg"
 
 	resp, err := http.Get(url)
 
@@ -26,13 +26,14 @@ func main() {
 		}
 	}()
 
-	body, err := io.ReadAll(resp.Body)
+	body := make([]byte, 512)
+	body, err = io.ReadAll(resp.Body)
 
 	contentType := Sniff(body)
 
 	if strings.Contains(contentType, "image") {
-		fmt.Printf("Это изображение")
+		fmt.Printf("This is image")
 	} else {
-		fmt.Printf("Это НЕ изображение")
+		fmt.Printf("This is NOT image")
 	}
 }
